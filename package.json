@@ -7,13 +7,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "lil-gui": "^0.16.1",
+    "gsap": "^3.11.1",
+    "ogl": "^0.0.99",
     "sass": "^1.54.9",
-    "scss": "^0.2.4",
     "stats.js": "^0.17.0",
     "stylus": "^0.58.1",
-    "three": "^0.141.0",
-    "vite": "^2.9.12",
-    "vite-plugin-glsl": "^0.1.2"
+    "vite": "^2.9.12"
   }
 }
