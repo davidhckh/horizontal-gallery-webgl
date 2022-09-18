@@ -1,4 +1,4 @@
-# Camille Mormal Clone
+# Horizontal Gallery WebGL
 
 🚧 This project is under construction
 
