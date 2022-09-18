@@ -20,17 +20,21 @@ export default class Loader extends EventEmitter {
 
   loadAll() {
     this.articles.forEach((article) => {
-      this.load(article.image);
+      this.load(article.image, article);
     });
   }
 
-  load(src) {
+  load(src, article) {
     const textureMask = new Texture(this.gl, { generateMipmaps: false });
     const image = new Image();
     image.src = src;
     image.onload = () => {
       textureMask.image = image;
       this.loaded++;
+
+      article.texture = textureMask;
+      article.image = image;
+
       this.checkFinish();
     };
   }

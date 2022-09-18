@@ -18,4 +18,8 @@ export default class SceneRenderer {
   resize() {
     this.instance.setSize(this.sizes.width, this.sizes.height);
   }
+
+  update() {
+    this.instance.render({ scene: this.app.scene.instance, camera: this.app.camera.instance });
+  }
 }

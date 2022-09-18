@@ -5,6 +5,7 @@ import SceneRenderer from "./Renderer";
 import Loader from "./Utils/Loader";
 import Scene from "./Scene/Scene";
 import articles from "./articles";
+import Scrolling from "./Scrolling";
 
 export default class App {
   static instance;
@@ -25,6 +26,7 @@ export default class App {
     this.renderer = new SceneRenderer();
     this.loader = new Loader();
     this.scene = new Scene();
+    this.scrolling = new Scrolling();
 
     this.resize();
     this.sizes.on("resize", () => this.resize());
@@ -34,7 +36,12 @@ export default class App {
   resize() {
     this.camera.resize();
     this.renderer.resize();
+    this.scene.resize();
   }
 
-  update() {}
+  update() {
+    this.scene.update();
+    this.renderer.update();
+    this.scrolling.update();
+  }
 }
