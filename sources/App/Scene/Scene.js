@@ -1,5 +1,6 @@
 import App from "../App";
 import TeaserImage from "./TeaserImage";
+import Raycasting from "./Raycasting";
 import { Transform } from "ogl";
 
 export default class Scene {
@@ -16,6 +17,8 @@ export default class Scene {
       this.articles.forEach((article, index) => {
         this.teaserImages.push(new TeaserImage(article, index));
       });
+
+      this.raycasting = new Raycasting();
     });
   }
 

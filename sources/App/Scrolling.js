@@ -12,7 +12,7 @@ export default class Scrolling {
     this.current = 0;
     this.target = 0;
     this.easing = 0.08;
-    this.limit = 802;
+    this.limit = 746;
     this.ratio = 100;
 
     this.addEventListeners();
@@ -58,6 +58,7 @@ export default class Scrolling {
   update() {
     this.target = clamp(this.target, 0, this.limit);
     this.current = lerp(this.current, this.target, this.easing);
+    this.velocity = this.current - this.target;
 
     this.camera.position.x = this.current / this.ratio;
   }

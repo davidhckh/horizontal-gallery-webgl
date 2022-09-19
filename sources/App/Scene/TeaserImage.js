@@ -2,7 +2,7 @@ import App from "../App";
 import { Plane, Program, Mesh } from "ogl";
 import fragmentShader from "../../shaders/teaserImage/fragment.glsl";
 import vertexShader from "../../shaders/teaserImage/vertex.glsl";
-import { lerp, clamp, map } from "../Utils/math";
+import { map, lerp } from "../Utils/math";
 
 export default class TeaserImage {
   constructor(article, index) {
@@ -11,20 +11,13 @@ export default class TeaserImage {
     this.gl = this.app.renderer.gl;
     this.scrolling = this.app.scrolling;
     this.camera = this.app.camera.instance;
+    this.sizes = this.app.sizes;
 
     this.article = article;
     this.index = index;
 
-    this.sizes = {};
-
-    this.setSizes();
     this.init();
     this.setPositon();
-  }
-
-  setSizes() {
-    this.sizes.width = 0.9;
-    this.sizes.height = 1.4;
   }
 
   init() {
@@ -41,27 +34,64 @@ export default class TeaserImage {
           value: [this.image.naturalWidth, this.image.naturalHeight]
         },
         uPlaneSizes: {
-          value: [this.sizes.width, this.sizes.height]
+          value: [0, 0]
         },
         uOffset: { value: 0 },
-        uZoom: { value: 0.8 }
+        uZoom: { value: 0.85 },
+        uVelocity: { value: 0 }
       }
     });
 
     this.mesh = new Mesh(this.gl, { geometry: this.geometry, program: this.program });
     this.mesh.setParent(this.scene);
-    this.mesh.scale.x = this.sizes.width;
-    this.mesh.scale.y = this.sizes.height;
+    this.mesh.scale.x = 0.83;
+    this.mesh.scale.y = 1.3;
+    this.targetScaleX = this.mesh.scale.x;
+    this.targetScaleY = this.mesh.scale.y;
   }
 
   setPositon() {
-    this.mesh.position.x = this.index * (this.sizes.width + 0.1);
+    this.mesh.position.x = this.index * (this.mesh.scale.x + 0.1);
   }
 
-  resize() {}
+  handleClick() {
+    this.enlarge();
+  }
+
+  enlarge() {
+    this.isEnlarged = true;
+
+    this.targetZoom = 1;
+
+    this.fov = this.camera.fov * (Math.PI / 180);
+
+    this.targetScaleY = 2 * Math.tan(this.fov / 2) * this.camera.position.z;
+    this.targetScaleX = this.targetScaleY * this.camera.aspect;
+    this.mesh.position.z += 0.001;
+  }
+
+  resize() {
+    if (this.isEnlarged === true) {
+      this.targetScaleY = 2 * Math.tan(this.fov / 2) * this.camera.position.z;
+      this.targetScaleX = this.targetScaleY * this.camera.aspect;
+    }
+  }
 
   update() {
     const positionInViewport = this.mesh.position.x - this.scrolling.current / this.scrolling.ratio;
-    this.program.uniforms.uOffset.value = map(positionInViewport, -5, 5, -0.3, 0.3);
+    this.program.uniforms.uOffset.value = map(positionInViewport, -4, 4, -0.35, 0.35);
+    this.program.uniforms.uVelocity.value = this.scrolling.velocity;
+
+    if (!this.isEnlarged) {
+      this.targetZoom = this.isHovered === true ? 0.95 : 0.9;
+    }
+
+    //scale
+    this.mesh.scale.x = lerp(this.mesh.scale.x, this.targetScaleX, 0.15);
+    this.mesh.scale.y = lerp(this.mesh.scale.y, this.targetScaleY, 0.15);
+    this.program.uniforms.uPlaneSizes.value = [this.mesh.scale.x, this.mesh.scale.y];
+
+    //zoom
+    this.program.uniforms.uZoom.value = lerp(this.program.uniforms.uZoom.value, this.targetZoom, 0.15);
   }
 }

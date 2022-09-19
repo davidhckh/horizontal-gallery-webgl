@@ -17,7 +17,7 @@ export default class SceneCamera {
 
   resize() {
     this.instance.perspective({
-      aspect: this.sizes.width / this.sizes.height,
+      aspect: this.sizes.width / this.sizes.height
     });
   }
 }
