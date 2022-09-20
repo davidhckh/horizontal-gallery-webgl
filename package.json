@@ -13,7 +13,6 @@
     "stats.js": "^0.17.0",
     "stylus": "^0.58.1",
     "vite": "^2.9.12",
-    "vite-plugin-compression": "^0.5.1",
     "vite-plugin-glsl": "^0.1.2"
   }
 }

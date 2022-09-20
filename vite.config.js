@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import glsl from "vite-plugin-glsl";
-import viteCompression from "vite-plugin-compression";
 
 export default defineConfig({
   root: "sources",
@@ -8,7 +7,14 @@ export default defineConfig({
   build: {
     outDir: "../dist",
     emptyOutDir: true,
-    sourcemap: true
+    rollupOptions: {
+      output: {
+        manualChunks: false,
+        inlineDynamicImports: true,
+        entryFileNames: "[name].js",
+        assetFileNames: "[name].[ext]"
+      }
+    }
   },
-  plugins: [glsl(), viteCompression()]
+  plugins: [glsl()]
 });
