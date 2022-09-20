@@ -1,8 +1,6 @@
 import glsl from "vite-plugin-glsl";
 import { defineConfig } from "vite";
-import path from "path";
-
-const dirname = path.resolve();
+import compress from "vite-plugin-compress";
 
 export default defineConfig({
   root: "sources",
@@ -10,7 +8,7 @@ export default defineConfig({
   build: {
     outDir: "../dist",
     emptyOutDir: true,
-    sourcemap: true,
+    sourcemap: true
   },
-  plugins: [glsl()],
+  plugins: [glsl(), compress()]
 });

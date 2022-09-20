@@ -24,5 +24,7 @@ void main() {
         mix(0.5, uv.y, uZoom)
     );
 
-    gl_FragColor = texture2D(tMap, zoomedUv);
+    vec4 texture = texture2D(tMap, zoomedUv);
+
+    gl_FragColor = texture;
 }
