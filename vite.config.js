@@ -1,6 +1,6 @@
-import glsl from "vite-plugin-glsl";
 import { defineConfig } from "vite";
-import compress from "vite-plugin-compress";
+import glsl from "vite-plugin-glsl";
+import viteCompression from "vite-plugin-compression";
 
 export default defineConfig({
   root: "sources",
@@ -10,5 +10,5 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true
   },
-  plugins: [glsl(), compress()]
+  plugins: [glsl(), viteCompression()]
 });
