@@ -1,12 +1,15 @@
 import App from "./App";
+import EventEmitter from "./Utils/EventEmitter";
 import { clamp, lerp } from "./Utils/math";
 
-export default class Scrolling {
+export default class Scrolling extends EventEmitter {
   constructor() {
+    super();
+
     this.app = new App();
     this.camera = this.app.camera.instance;
 
-    this.trigger = window;
+    this.element = window;
 
     this.speed = 0.5;
     this.current = 0;
@@ -20,6 +23,7 @@ export default class Scrolling {
 
   onWheel({ deltaY }) {
     this.target += deltaY * this.speed;
+    this.trigger("update");
   }
 
   onTouchStart(event) {
@@ -36,6 +40,7 @@ export default class Scrolling {
     const distance = this.x - x;
 
     this.target = this.position + distance * 2;
+    this.trigger("update");
   }
 
   onTouchEnd(event) {
@@ -43,15 +48,15 @@ export default class Scrolling {
   }
 
   addEventListeners() {
-    this.trigger.addEventListener("wheel", this.onWheel.bind(this));
+    this.element.addEventListener("wheel", this.onWheel.bind(this));
 
-    this.trigger.addEventListener("touchstart", this.onTouchStart.bind(this));
-    this.trigger.addEventListener("touchmove", this.onTouchMove.bind(this));
-    this.trigger.addEventListener("touchend", this.onTouchEnd.bind(this));
+    this.element.addEventListener("touchstart", this.onTouchStart.bind(this));
+    this.element.addEventListener("touchmove", this.onTouchMove.bind(this));
+    this.element.addEventListener("touchend", this.onTouchEnd.bind(this));
 
-    this.trigger.addEventListener("mousedown", this.onTouchStart.bind(this));
-    this.trigger.addEventListener("mousemove", this.onTouchMove.bind(this));
-    this.trigger.addEventListener("mouseup", this.onTouchEnd.bind(this));
+    this.element.addEventListener("mousedown", this.onTouchStart.bind(this));
+    this.element.addEventListener("mousemove", this.onTouchMove.bind(this));
+    this.element.addEventListener("mouseup", this.onTouchEnd.bind(this));
     window.oncontextmenu = this.onTouchEnd.bind(this);
   }
 

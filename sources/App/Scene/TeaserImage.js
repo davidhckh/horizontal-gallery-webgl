@@ -18,6 +18,7 @@ export default class TeaserImage {
 
     this.init();
     this.setPositon();
+    this.scrolling.on("update", this.decrease.bind(this));
   }
 
   init() {
@@ -52,6 +53,7 @@ export default class TeaserImage {
 
   setPositon() {
     this.mesh.position.x = this.index * (this.mesh.scale.x + 0.1);
+    this.targetPositonX = this.mesh.position.x;
   }
 
   handleClick() {
@@ -67,7 +69,20 @@ export default class TeaserImage {
 
     this.targetScaleY = 2 * Math.tan(this.fov / 2) * this.camera.position.z;
     this.targetScaleX = this.targetScaleY * this.camera.aspect;
-    this.mesh.position.z += 0.001;
+    this.mesh.position.z = 0.001;
+  }
+
+  decrease() {
+    this.isEnlarged = false;
+    this.targetScaleX = 0.83;
+    this.targetScaleY = 1.3;
+    this.targetZoom = 0.85;
+    this.targetPositonX = this.index * (this.targetScaleX + 0.1);
+    setTimeout(() => {
+      if (!this.isEnlarged) {
+        this.mesh.position.z = 0;
+      }
+    }, 500);
   }
 
   resize() {
@@ -87,11 +102,14 @@ export default class TeaserImage {
     }
 
     //scale
-    this.mesh.scale.x = lerp(this.mesh.scale.x, this.targetScaleX, 0.15);
-    this.mesh.scale.y = lerp(this.mesh.scale.y, this.targetScaleY, 0.15);
+    this.mesh.scale.x = lerp(this.mesh.scale.x, this.targetScaleX, 0.1);
+    this.mesh.scale.y = lerp(this.mesh.scale.y, this.targetScaleY, 0.1);
     this.program.uniforms.uPlaneSizes.value = [this.mesh.scale.x, this.mesh.scale.y];
 
+    //position
+    this.mesh.position.x = lerp(this.mesh.position.x, this.isEnlarged ? this.camera.position.x : this.targetPositonX, 0.1);
+
     //zoom
-    this.program.uniforms.uZoom.value = lerp(this.program.uniforms.uZoom.value, this.targetZoom, 0.15);
+    this.program.uniforms.uZoom.value = lerp(this.program.uniforms.uZoom.value, this.targetZoom, 0.1);
   }
 }
