@@ -12,6 +12,7 @@ export default class TeaserImage {
     this.scrolling = this.app.scrolling;
     this.camera = this.app.camera.instance;
     this.sizes = this.app.sizes;
+    this.details = this.app.details;
 
     this.article = article;
     this.index = index;
@@ -57,7 +58,9 @@ export default class TeaserImage {
   }
 
   handleClick() {
-    this.enlarge();
+    if (!this.isEnlarged && this.details.visible === false) {
+      this.enlarge();
+    }
   }
 
   enlarge() {
@@ -67,9 +70,12 @@ export default class TeaserImage {
 
     this.fov = this.camera.fov * (Math.PI / 180);
 
+    this.targetOffset = 0;
     this.targetScaleY = 2 * Math.tan(this.fov / 2) * this.camera.position.z;
     this.targetScaleX = this.targetScaleY * this.camera.aspect;
     this.mesh.position.z = 0.001;
+
+    this.details.show(this.article);
   }
 
   decrease() {
@@ -83,6 +89,8 @@ export default class TeaserImage {
         this.mesh.position.z = 0;
       }
     }, 500);
+
+    this.details.hide();
   }
 
   resize() {
@@ -95,6 +103,7 @@ export default class TeaserImage {
   update() {
     const positionInViewport = this.mesh.position.x - this.scrolling.current / this.scrolling.ratio;
     this.program.uniforms.uOffset.value = map(positionInViewport, -4, 4, -0.35, 0.35);
+
     this.program.uniforms.uVelocity.value = this.scrolling.velocity;
 
     if (!this.isEnlarged) {
@@ -102,14 +111,14 @@ export default class TeaserImage {
     }
 
     //scale
-    this.mesh.scale.x = lerp(this.mesh.scale.x, this.targetScaleX, 0.1);
-    this.mesh.scale.y = lerp(this.mesh.scale.y, this.targetScaleY, 0.1);
+    this.mesh.scale.x = lerp(this.mesh.scale.x, this.targetScaleX, 0.11);
+    this.mesh.scale.y = lerp(this.mesh.scale.y, this.targetScaleY, 0.11);
     this.program.uniforms.uPlaneSizes.value = [this.mesh.scale.x, this.mesh.scale.y];
 
     //position
-    this.mesh.position.x = lerp(this.mesh.position.x, this.isEnlarged ? this.camera.position.x : this.targetPositonX, 0.09);
+    this.mesh.position.x = lerp(this.mesh.position.x, this.isEnlarged ? this.camera.position.x : this.targetPositonX, 0.11);
 
     //zoom
-    this.program.uniforms.uZoom.value = lerp(this.program.uniforms.uZoom.value, this.targetZoom, 0.09);
+    this.program.uniforms.uZoom.value = lerp(this.program.uniforms.uZoom.value, this.targetZoom, 0.11);
   }
 }

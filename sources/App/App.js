@@ -6,6 +6,7 @@ import Loader from "./Utils/Loader";
 import Scene from "./Scene/Scene";
 import articles from "./articles";
 import Scrolling from "./Scrolling";
+import Details from "./Details";
 
 export default class App {
   static instance;
@@ -20,6 +21,7 @@ export default class App {
 
     this.articles = articles;
 
+    this.details = new Details();
     this.time = new Time();
     this.sizes = new Sizes();
     this.camera = new SceneCamera();

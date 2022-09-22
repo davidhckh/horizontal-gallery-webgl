@@ -1,0 +1,55 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow: hidden;
+  font-family: "Manrope";
+}
+
+canvas {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: #010019;
+}
+
+.centerCircle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: 30px;
+  width: 30px;
+  border: 3px solid white;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.detailTitle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 2;
+  height: fit-content;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+
+  &--text {
+    color: white;
+    font-size: 64px;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    letter-spacing: 5px;
+    transform: translateY(70px);
+  }
+}
