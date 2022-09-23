@@ -10,7 +10,7 @@ export default class SceneRenderer {
   }
 
   init() {
-    this.instance = new Renderer({ alpha: true, antialis: true });
+    this.instance = new Renderer({ alpha: true, antialis: true, dpr: window.devicePixelRatio });
     this.gl = this.instance.gl;
     document.body.appendChild(this.gl.canvas);
   }
