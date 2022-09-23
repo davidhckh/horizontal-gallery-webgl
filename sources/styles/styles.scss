@@ -8,13 +8,13 @@ html,
 body {
   overflow: hidden;
   font-family: "Manrope";
+  background: #010019;
 }
 
 canvas {
   position: fixed;
   width: 100vw;
   min-height: 100vh;
-  background: #010019;
 }
 
 .centerCircle {
@@ -61,18 +61,25 @@ canvas {
   right: 20px;
   color: white;
   z-index: 3;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 
   svg {
     width: 20px;
     height: 20px;
-    margin-left: 5px;
+    margin-left: 10px;
     margin-right: 10px;
-    transform: translateY(3px);
+    transform: translateY(1px);
     color: white;
   }
 
-  .noUnderline {
+  &--noUnderline {
     text-decoration: none;
+  }
+
+  &--sourceCode {
+    margin-left: 10px;
   }
 
   a {
