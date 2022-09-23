@@ -8,6 +8,8 @@ export default class Raycasting {
     this.camera = this.app.camera.instance;
     this.gl = this.app.renderer.gl;
 
+    this.hitImage = [];
+
     this.mouse = new Vec2();
     this.instance = new Raycast(this.gl);
     this.meshes = [];
@@ -21,12 +23,17 @@ export default class Raycasting {
   }
 
   handleClick() {
-    if (this.hitImage) {
-      this.hitImage.handleClick();
+    this.cast();
+    if (this.hitImage != null) {
+      this.hitImage && this.hitImage.handleClick();
     }
   }
 
-  handleMove(event) {
+  handleMove() {
+    this.cast();
+  }
+
+  cast() {
     this.mouse.x = 2.0 * (event.x / this.sizes.width) - 1.0;
     this.mouse.y = 2.0 * (1.0 - event.y / this.sizes.height) - 1.0;
 

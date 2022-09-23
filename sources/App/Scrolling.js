@@ -22,15 +22,11 @@ export default class Scrolling extends EventEmitter {
     this.addEventListeners();
   }
 
-  updateTarget(by) {
+  onWheel({ deltaY }) {
     if (this.app.openingPlayed === true) {
-      this.target += by;
+      this.target += deltaY * this.speed;
       this.trigger("update");
     }
-  }
-
-  onWheel({ deltaY }) {
-    this.updateTarget(deltaY * this.speed);
   }
 
   onTouchStart(event) {
@@ -46,7 +42,10 @@ export default class Scrolling extends EventEmitter {
     const x = event.touches ? event.touches[0].clientX : event.clientX;
     const distance = this.x - x;
 
-    this.updateTarget(this.position + distance * 2);
+    if (this.app.openingPlayed === true) {
+      this.target = this.position + distance * 2;
+      this.trigger("update");
+    }
   }
 
   onTouchEnd(event) {
