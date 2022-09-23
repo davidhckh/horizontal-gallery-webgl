@@ -44,6 +44,7 @@ canvas {
   overflow: hidden;
   display: flex;
   justify-content: center;
+  pointer-events: none;
 
   &--text {
     color: white;
@@ -51,5 +52,36 @@ canvas {
     text-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     letter-spacing: 5px;
     transform: translateY(70px);
+  }
+}
+
+.credits {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+  z-index: 3;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    margin-right: 10px;
+    transform: translateY(3px);
+    color: white;
+  }
+
+  .noUnderline {
+    text-decoration: none;
+  }
+
+  a {
+    &:visited {
+      color: white;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 }
