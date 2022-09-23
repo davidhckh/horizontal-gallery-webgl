@@ -1,7 +1,5 @@
 # Horizontal Gallery WebGL
 
-🚧 This project is under construction
-
 📝 Made for practice
 
 ## Setup
