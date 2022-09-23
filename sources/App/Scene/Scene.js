@@ -33,6 +33,7 @@ export default class Scene {
         {
           x: teaserImage.mesh.position.x,
           z: 0,
+          delay: 0.2,
           duration: 1.5,
           ease: "power4.out",
           stagger: 0.1
@@ -40,7 +41,7 @@ export default class Scene {
       );
     });
 
-    gsap.delayedCall(0.8, () => {
+    gsap.delayedCall(1, () => {
       this.app.openingPlayed = true;
     });
   }
