@@ -19,6 +19,7 @@ export default class TeaserImage {
 
     this.init();
     this.setPositon();
+
     this.scrolling.on("update", this.decrease.bind(this));
   }
 
@@ -116,7 +117,9 @@ export default class TeaserImage {
     this.program.uniforms.uPlaneSizes.value = [this.mesh.scale.x, this.mesh.scale.y];
 
     //position
-    this.mesh.position.x = lerp(this.mesh.position.x, this.isEnlarged ? this.camera.position.x : this.targetPositonX, 0.11);
+    if (this.app.openingPlayed === true) {
+      this.mesh.position.x = lerp(this.mesh.position.x, this.isEnlarged ? this.camera.position.x : this.targetPositonX, 0.11);
+    }
 
     //zoom
     this.program.uniforms.uZoom.value = lerp(this.program.uniforms.uZoom.value, this.targetZoom, 0.11);

@@ -18,7 +18,7 @@ export default class Details {
       gsap.fromTo(this.elements.detailText, { y: 90 }, { y: 0, duration: 0.7, ease: Power1.easeInOut });
 
       //circle
-      gsap.to(this.elements.circle, { opacity: 0, duration: 0.2, delay: 0.1, ease: Power1.easeInOut });
+      gsap.to(this.elements.circle, { opacity: 0, duration: 0.2, delay: 0.2, ease: Power1.easeInOut });
     }
   }
 
@@ -31,7 +31,7 @@ export default class Details {
       gsap.to(this.elements.detailText, { y: -90, duration: 0.5, ease: Power1.easeInOut });
 
       //circle
-      gsap.to(this.elements.circle, { opacity: 1, duration: 0.2, delay: 0.3, ease: Power1.easeInOut });
+      gsap.to(this.elements.circle, { opacity: 1, duration: 0.2, delay: 0.2, ease: Power1.easeInOut });
     }
   }
 }

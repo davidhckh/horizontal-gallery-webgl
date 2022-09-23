@@ -13,7 +13,7 @@ body {
 canvas {
   position: fixed;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background: #010019;
 }
 
@@ -48,7 +48,7 @@ canvas {
   &--text {
     color: white;
     font-size: 64px;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     letter-spacing: 5px;
     transform: translateY(70px);
   }

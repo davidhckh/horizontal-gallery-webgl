@@ -17,13 +17,20 @@ export default class Scrolling extends EventEmitter {
     this.easing = 0.08;
     this.limit = 746;
     this.ratio = 100;
+    this.velocity = 0;
 
     this.addEventListeners();
   }
 
+  updateTarget(by) {
+    if (this.app.openingPlayed === true) {
+      this.target += by;
+      this.trigger("update");
+    }
+  }
+
   onWheel({ deltaY }) {
-    this.target += deltaY * this.speed;
-    this.trigger("update");
+    this.updateTarget(deltaY * this.speed);
   }
 
   onTouchStart(event) {
@@ -39,8 +46,7 @@ export default class Scrolling extends EventEmitter {
     const x = event.touches ? event.touches[0].clientX : event.clientX;
     const distance = this.x - x;
 
-    this.target = this.position + distance * 2;
-    this.trigger("update");
+    this.updateTarget(this.position + distance * 2);
   }
 
   onTouchEnd(event) {
@@ -61,10 +67,11 @@ export default class Scrolling extends EventEmitter {
   }
 
   update() {
-    this.target = clamp(this.target, 0, this.limit);
-    this.current = lerp(this.current, this.target, this.easing);
-    this.velocity = this.current - this.target;
-
-    this.camera.position.x = this.current / this.ratio;
+    if (this.app.openingPlayed === true) {
+      this.target = clamp(this.target, 0, this.limit);
+      this.current = lerp(this.current, this.target, this.easing);
+      this.velocity = this.current - this.target;
+      this.camera.position.x = this.current / this.ratio;
+    }
   }
 }
