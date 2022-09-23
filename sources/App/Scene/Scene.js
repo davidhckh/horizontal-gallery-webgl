@@ -29,19 +29,18 @@ export default class Scene {
     this.teaserImages.forEach((teaserImage, index) => {
       gsap.fromTo(
         teaserImage.mesh.position,
-        { x: -1, z: -index * 0.3 + 0.2 },
+        { x: index * 0.08, z: -index * 0.3 },
         {
           x: teaserImage.mesh.position.x,
           z: 0,
-          delay: 0.2,
           duration: 1.5,
-          ease: "power4.out",
+          ease: "power4.inOut",
           stagger: 0.1
         }
       );
     });
 
-    gsap.delayedCall(1, () => {
+    gsap.delayedCall(0.8, () => {
       this.app.openingPlayed = true;
     });
   }
