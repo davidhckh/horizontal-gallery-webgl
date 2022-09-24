@@ -32,6 +32,7 @@ export default class Scene {
         { x: index * 0.08, z: -index * 0.3 },
         {
           x: teaserImage.mesh.position.x,
+          delay: 0.2,
           z: 0,
           duration: 1.5,
           ease: "power4.inOut",
