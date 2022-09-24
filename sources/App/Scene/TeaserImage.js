@@ -18,6 +18,7 @@ export default class TeaserImage {
     this.index = index;
 
     this.init();
+    this.setScale();
     this.setPositon();
 
     this.scrolling.on("update", this.decrease.bind(this));
@@ -33,12 +34,8 @@ export default class TeaserImage {
       fragment: fragmentShader,
       uniforms: {
         tMap: { value: this.texture },
-        uImageSizes: {
-          value: [this.image.naturalWidth, this.image.naturalHeight]
-        },
-        uPlaneSizes: {
-          value: [0, 0]
-        },
+        uImageSizes: { value: [this.image.naturalWidth, this.image.naturalHeight] },
+        uPlaneSizes: { value: [0, 0] },
         uOffset: { value: 0 },
         uZoom: { value: 0.85 },
         uVelocity: { value: 0 }
@@ -47,6 +44,9 @@ export default class TeaserImage {
 
     this.mesh = new Mesh(this.gl, { geometry: this.geometry, program: this.program });
     this.mesh.setParent(this.scene);
+  }
+
+  setScale() {
     this.mesh.scale.x = 0.83;
     this.mesh.scale.y = 1.3;
     this.targetScaleX = this.mesh.scale.x;
@@ -67,24 +67,27 @@ export default class TeaserImage {
   enlarge() {
     this.isEnlarged = true;
 
-    this.targetZoom = 1;
-
     this.fov = this.camera.fov * (Math.PI / 180);
 
-    this.targetOffset = 0;
     this.targetScaleY = 2 * Math.tan(this.fov / 2) * this.camera.position.z;
     this.targetScaleX = this.targetScaleY * this.camera.aspect;
+    this.targetOffset = 0;
+    this.targetZoom = 1;
+
     this.mesh.position.z = 0.001;
 
     this.details.show(this.article);
   }
 
   decrease() {
+    //back to initial
     this.isEnlarged = false;
+
+    this.targetZoom = 0.85;
     this.targetScaleX = 0.83;
     this.targetScaleY = 1.3;
-    this.targetZoom = 0.85;
     this.targetPositonX = this.index * (this.targetScaleX + 0.1);
+
     setTimeout(() => {
       if (!this.isEnlarged) {
         this.mesh.position.z = 0;
@@ -102,11 +105,14 @@ export default class TeaserImage {
   }
 
   update() {
+    //parallax
     const positionInViewport = this.mesh.position.x - this.scrolling.current / this.scrolling.ratio;
     this.program.uniforms.uOffset.value = map(positionInViewport, -4, 4, -0.35, 0.35);
 
+    //velocity
     this.program.uniforms.uVelocity.value = this.scrolling.velocity;
 
+    //hover
     if (!this.isEnlarged) {
       this.targetZoom = this.isHovered === true ? 0.95 : 0.9;
     }

@@ -28,6 +28,7 @@ export default class Loader extends EventEmitter {
     const textureMask = new Texture(this.gl, { generateMipmaps: false });
     const image = new Image();
     image.src = src;
+    
     image.onload = () => {
       textureMask.image = image;
       this.loaded++;

@@ -23,6 +23,7 @@ export default class Scrolling extends EventEmitter {
   }
 
   onWheel({ deltaY }) {
+    //update
     if (this.app.openingPlayed === true) {
       this.target += deltaY * this.speed;
       this.trigger("update");
@@ -42,6 +43,7 @@ export default class Scrolling extends EventEmitter {
     const x = event.touches ? event.touches[0].clientX : event.clientX;
     const distance = this.x - x;
 
+    //update
     if (this.app.openingPlayed === true) {
       this.target = this.position + distance * 2;
       this.trigger("update");
@@ -69,6 +71,8 @@ export default class Scrolling extends EventEmitter {
     if (this.app.openingPlayed === true) {
       this.target = clamp(this.target, 0, this.limit);
       this.current = lerp(this.current, this.target, this.easing);
+
+      //animations
       this.velocity = this.current - this.target;
       this.camera.position.x = this.current / this.ratio;
     }

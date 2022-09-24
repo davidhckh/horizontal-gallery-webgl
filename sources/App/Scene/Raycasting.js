@@ -10,8 +10,11 @@ export default class Raycasting {
 
     this.hitImage = [];
 
+    //init
     this.mouse = new Vec2();
     this.instance = new Raycast(this.gl);
+
+    //meshes
     this.meshes = [];
     this.app.scene.teaserImages.forEach((teaserImage) => {
       this.meshes.push(teaserImage.mesh);
@@ -34,15 +37,13 @@ export default class Raycasting {
   }
 
   cast() {
+    //raycast
     this.mouse.x = 2.0 * (event.x / this.sizes.width) - 1.0;
     this.mouse.y = 2.0 * (1.0 - event.y / this.sizes.height) - 1.0;
-
     this.instance.castMouse(this.camera, this.mouse);
-
     const hits = this.instance.intersectBounds(this.meshes);
 
-    document.body.style.cursor = hits.length ? "pointer" : "default";
-
+    //states
     this.app.scene.teaserImages.forEach((teaserImage) => {
       teaserImage.isHovered = false;
     });
@@ -53,5 +54,7 @@ export default class Raycasting {
     } else {
       this.hitImage = null;
     }
+
+    document.body.style.cursor = hits.length ? "pointer" : "default";
   }
 }
